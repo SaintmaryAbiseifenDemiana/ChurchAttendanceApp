@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل حضور وغياب الخدام</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <style>
+        .report-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .report-controls label { font-weight: bold; }
+        .report-controls select { max-width: 240px; }
+        .servants-list { margin-top: 10px; }
+        .extra-report {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eef9ff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .extra-report label { font-weight: bold; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 تسجيل حضور وغياب الخدام</h1>
+        <a href="/ameen-dashboard.html">العودة للوحة الأمين</a>
+        <hr>
+
+        <div class="report-controls">
+            <label for="month_select">اختر الشهر:</label>
+            <select id="month_select" required>
+                <option value="">-- اختار الشهر --</option>
+                <option value="1">يناير</option>
+                <option value="2">فبراير</option>
+                <option value="3">مارس</option>
+                <option value="4">أبريل</option>
+                <option value="5">مايو</option>
+                <option value="6">يونيو</option>
+                <option value="7">يوليو</option>
+                <option value="8">أغسطس</option>
+                <option value="9">سبتمبر</option>
+                <option value="10">أكتوبر</option>
+                <option value="11">نوفمبر</option>
+                <option value="12">ديسمبر</option>
+            </select>
+
+            <label for="friday_select">اختر جمعة:</label>
+            <select id="friday_select" required>
+                <option value="">-- اختار جمعة --</option>
+            </select>
+
+            <label for="family_select">اختر الأسرة:</label>
+            <select id="family_select" required>
+                <option value="">-- اختار الأسرة --</option>
+            </select>
+        </div>
+
+        <p id="loading-message" style="text-align: center; color: blue; font-weight: bold; margin-top: 20px;">
+            يرجى اختيار الشهر ثم الجمعة ثم الأسرة لبدء التسجيل.
+        </p>
+        
+        <form id="attendanceForm" style="display: none;">
+            <div id="servantList" class="servants-list"></div>
+
+            <!-- ✅ جدول إضافي للأمين -->
+            <div class="extra-report">
+                <h3>عدد حضور المخدومين</h3>
+                <label for="attendees_count">اكتب العدد:</label>
+                <input type="number" id="attendees_count" min="0" required>
+            </div>
+
+            <button type="submit" id="submitAttendance" style="margin-top: 30px;">تسجيل الحضور</button>
+        </form>
+        
+        <p id="result-message" style="text-align: center; margin-top: 15px; font-weight: bold;"></p>
+    </div>
+
+    <script src="record-attendance.js"></script>
+    <script src="navigation-control.js"></script>
+
+</body>
+</html>

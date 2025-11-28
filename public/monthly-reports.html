@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>النسبة الشهرية للخدام</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>النسبة الشهرية للخدام</h1>
+    <a href="/admin-dashboard.html">العودة للوحة الإدارة</a>
+    <hr>
+
+    <div class="report-controls">
+      <label for="month_select">اختر الشهر:</label>
+      <select id="month_select">
+        <option value="">-- اختار الشهر --</option>
+        <option value="10">أكتوبر</option>
+        <option value="11">نوفمبر</option>
+        <option value="12">ديسمبر</option>
+        <option value="1">يناير</option>
+        <option value="2">فبراير</option>
+        <option value="3">مارس</option>
+        <option value="4">أبريل</option>
+        <option value="5">مايو</option>
+        <option value="6">يونيو</option>
+        <option value="7">يوليو</option>
+        <option value="8">أغسطس</option>
+        <option value="9">سبتمبر</option>
+      </select>
+      <label for="family_select">اختر الأسرة:</label>
+      <select id="family_select">
+        <option value="">-- كل الأسر --</option>
+      </select>
+      <button id="loadReportBtn">عرض التقرير</button>
+      <label for="quarter_select">اختر الربع السنوي:</label>
+      <select id="quarter_select">
+        <option value="">-- اختار الربع --</option>
+        <option value="Q1">الربع الأول (أكتوبر–ديسمبر 2025)</option>
+        <option value="Q2">الربع الثاني (يناير–مارس 2026)</option>
+        <option value="Q3">الربع الثالث (أبريل–يونيو 2026)</option>
+        <option value="Q4">الربع الرابع (يوليو–سبتمبر 2026)</option>
+     </select>
+<button id="calcQuarterBtn">عرض النسبة السنوية</button>
+
+    </div>
+
+    <div class="table-responsive">
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>م</th>
+            <th>اسم الخادم</th>
+            <th>حضر الاجتماع</th>
+            <th>حضر الدرس</th>
+            <th>اتناول</th>
+            <th>اعترف</th>
+            <th>نسبة الافتقاد</th>
+          </tr>
+        </thead>
+        <tbody id="reportTableBody"></tbody>
+      </table>
+    </div>
+
+    <p id="resultMessage" style="margin-top:15px; font-weight:bold;"></p>
+    <button id="exportMonthlyExcel">📊 طباعه  (Excel)</button>
+    <button id="exportMonthlyPDF">📄 طباعه  (PDF)</button>
+  </div>
+    
+
+  <script src="monthly-reports.js"></script>
+  <script src="navigation-control.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="/amiri-vfs.js"></script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل الغياب الشهري للخدام</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>تسجيل الغياب الشهري للخدام</h1>
+    <a href="/ameen-dashboard.html">العودة للوحة الأمين</a>
+    <hr>
+
+    <div class="report-controls">
+      <label for="month_select">اختر الشهر:</label>
+      <select id="month_select" required>
+        <option value="">-- اختار الشهر --</option>
+        <option value="10">أكتوبر</option>
+        <option value="11">نوفمبر</option>
+        <option value="12">ديسمبر</option>
+        <option value="1">يناير</option>
+        <option value="2">فبراير</option>
+        <option value="3">مارس</option>
+        <option value="4">أبريل</option>
+        <option value="5">مايو</option>
+        <option value="6">يونيو</option>
+        <option value="7">يوليو</option>
+        <option value="8">أغسطس</option>
+        <option value="9">سبتمبر</option>
+      </select>
+
+      <label for="friday_select">اختر الجمعة:</label>
+      <select id="friday_select" required>
+        <option value="">-- اختار جمعة --</option>
+      </select>
+
+      <label for="family_select">اختر الأسرة:</label>
+      <select id="family_select" required>
+        <option value="">-- اختار الأسرة --</option>
+      </select>
+    </div>
+
+    <form id="monthlyAttendanceForm" style="margin-top:20px;">
+      <table class="family-table">
+        <thead>
+          <tr>
+            <th>م</th>
+            <th>اسم الخادم</th>
+            <th>حضر الخدمة</th>
+            <th>حضر الدرس</th>
+            <th>اتناول</th>
+            <th>اعترف</th>
+            <th>عدد المخدومين</th>
+            <th>افتقد كام مخدوم (بيت فقط)</th>
+          </tr>
+        </thead>
+        <tbody id="servantsTableBody"></tbody>
+      </table>
+      <button type="submit" style="margin-top:15px;">حفظ السجل الشهري</button>
+    </form>
+
+    <p id="resultMessage" style="margin-top:15px; font-weight:bold;"></p>
+  </div>
+
+  <script src="monthly-attendance.js"></script>
+  <script src="navigation-control.js"></script>
+</body>
+</html>

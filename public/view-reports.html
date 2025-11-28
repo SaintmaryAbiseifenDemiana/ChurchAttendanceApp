@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقارير الحضور والغياب</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <style>
+        .report-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .report-controls label {
+            white-space: nowrap;
+            font-weight: bold;
+        }
+        .report-controls select {
+            flex-grow: 1;
+            max-width: 250px;
+        }
+        /* تنسيقات الجدول يتم التحكم فيها في styles.css */
+        .present { background-color: #e6ffed; color: green; font-weight: bold; }
+        .absent { background-color: #ffe6e6; color: red; }
+        .apologized { background-color: #fffacd; } 
+        .no-data { background-color: #f7f7f7; color: #888; }
+        .tooltip { position: relative; display: inline-block; cursor: pointer; }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: right;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 10;
+            top: 120%;
+            right: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+            direction: rtl;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>تقرير الحضور والغياب للخدام</h1>
+        <a href="/admin-dashboard.html">العودة للوحة الإدارة</a>
+        <hr>
+
+        <div class="report-controls">
+            <label for="report_month">تصفية حسب الشهر:</label>
+            <select id="report_month">
+                <option value="">-- اختار الشهر --</option>
+                <option value="1">يناير</option>
+                <option value="2">فبراير</option>
+                <option value="3">مارس</option>
+                <option value="4">أبريل</option>
+                <option value="5">مايو</option>
+                <option value="6">يونيو</option>
+                <option value="7">يوليو</option>
+                <option value="8">أغسطس</option>
+                <option value="9">سبتمبر</option>
+                <option value="10">أكتوبر</option>
+                <option value="11">نوفمبر</option>
+                <option value="12">ديسمبر</option>
+            </select>
+            
+            <label for="report_family">تصفية حسب الأسرة:</label>
+            <select id="report_family">
+                <option value="">-- كل الأسر --</option>
+            </select>
+            
+            <button id="filter-btn">عرض التقرير</button>
+        </div>
+
+        <p id="loading-status" style="text-align: center; color: blue;">اختر الشهر والأسرة ثم اعرض التقرير...</p>
+        <p id="error-message" style="text-align: center; color: red; display: none;"></p>
+
+        <!-- ✅ جدول الخدام -->
+        <div class="table-responsive"> 
+            <table class="report-table">
+                <thead id="reportTableHead"></thead>
+                <tbody id="reportTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- ✅ جدول إضافي لعدد حضور المخدومين -->
+        <h2 style="margin-top:30px;">عدد حضور المخدومين</h2>
+        <div id="servantsCountContainer" class="table-responsive"></div>
+    </div>
+
+    <script src="view-reports.js"></script>
+    <script src="navigation-control.js"></script>
+
+</body>
+</html>

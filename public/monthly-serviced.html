@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>النسبة الشهرية والسنوية للمخدومين</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { text-align: center; padding: 5px; border: 1px solid #ccc; }
+    th { background-color: #007bff; color: white; }
+    .summary-table {
+      display: none; /* يخفي الجدول من البداية */
+}
+    #monthlySummaryTitle {
+      display: none;
+}
+
+   /* ألوان فاتحة لكل شهر */
+.month-col-0 { background-color: #f9f9f9; }   /* أكتوبر */
+.month-col-1 { background-color: #fef6e4; }   /* نوفمبر */
+.month-col-2 { background-color: #eaf4fc; }   /* ديسمبر */
+.month-col-3 { background-color: #f0f9eb; }   /* يناير */
+.month-col-4 { background-color: #fff0f6; }   /* فبراير */
+.month-col-5 { background-color: #fdfde7; }   /* مارس */
+.month-col-6 { background-color: #e8f7f5; }   /* أبريل */
+.month-col-7 { background-color: #f9f0ff; }   /* مايو */
+.month-col-8 { background-color: #f0f8ff; }   /* يونيو */
+.month-col-9 { background-color: #f6fff0; }   /* يوليو */
+.month-col-10 { background-color: #fffaf0; }  /* أغسطس */
+.month-col-11 { background-color: #f0ffff; }  /* سبتمبر */
+/* خط سميك بين كل خادم */
+.servant-separator td {
+  border-top: 3px solid #000; /* خط أسود سميك */
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📊 نسب حضور المخدومين</h1>
+
+    <div class="filters">
+      <label for="monthSelect">اختر الشهر:</label>
+      <select id="monthSelect">
+        <option value="">-- اختر الشهر --</option>
+        <option value="01">يناير</option>
+        <option value="02">فبراير</option>
+        <option value="03">مارس</option>
+        <option value="04">أبريل</option>
+        <option value="05">مايو</option>
+        <option value="06">يونيو</option>
+        <option value="07">يوليو</option>
+        <option value="08">أغسطس</option>
+        <option value="09">سبتمبر</option>
+        <option value="10">أكتوبر</option>
+        <option value="11">نوفمبر</option>
+        <option value="12">ديسمبر</option>
+      </select>
+
+      <label for="familySelect">اختر الأسرة:</label>
+      <select id="familySelect">
+        <option value="">-- جاري تحميل الأسر... --</option>
+      </select>
+
+      <button id="loadMonthlyBtn">عرض النسبة الشهرية</button>
+      <button id="loadYearlyBtn">عرض النسبة السنوية</button>
+    </div>
+
+    <!-- هنا هنحط الجدول -->
+    <div id="servantsBlocks"></div>
+
+    <!-- جدول ملخص الأسرة للشهري فقط -->
+    <h3 id="monthlySummaryTitle">📌 نسبة حضور الأسرة في الشهر</h3>
+
+    <table class="table summary-table">
+      <thead>
+        <tr>
+          <th>عدد المخدومين</th>
+          <th>عدد مرات الحضور</th>
+          <th>عدد الجمع</th>
+          <th>النسبة الكلية</th>
+        </tr>
+      </thead>
+      <tbody id="familySummaryBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const API_BASE = '/api';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFamilies();
+      document.getElementById('loadMonthlyBtn').addEventListener('click', loadMonthlyReport);
+      document.getElementById('loadYearlyBtn').addEventListener('click', loadYearlyReport);
+    });
+
+    // دالة لحساب عدد أيام الجمعة في شهر/سنة
+    function countFridaysInMonth(monthStr, yearNum) {
+      const month = parseInt(monthStr, 10) - 1;
+      const date = new Date(yearNum, month, 1);
+      let fridays = 0;
+      while (date.getMonth() === month) {
+        if (date.getDay() === 5) fridays++;
+        date.setDate(date.getDate() + 1);
+      }
+      return fridays;
+    }
+
+  async function loadYearlyReport() {
+    const familyId = document.getElementById('familySelect').value;
+    const blocksDiv = document.getElementById('servantsBlocks');
+    const summaryTable = document.querySelector('.summary-table');
+
+
+    if (!familyId) {
+        alert('اختر الأسرة أولاً.');
+        return;
+    }
+    summaryTable.style.display = 'none';
+    document.getElementById('monthlySummaryTitle').style.display = 'none';
+
+    blocksDiv.innerHTML = '';
+
+    // كل الشهور من أكتوبر 2025 حتى سبتمبر 2026 مع السنة الخاصة بكل شهر
+    const months = [
+        { value: "10", label: "أكتوبر 2025", year: 2025 },
+        { value: "11", label: "نوفمبر 2025", year: 2025 },
+        { value: "12", label: "ديسمبر 2025", year: 2025 },
+        { value: "01", label: "يناير 2026", year: 2026 },
+        { value: "02", label: "فبراير 2026", year: 2026 },
+        { value: "03", label: "مارس 2026", year: 2026 },
+        { value: "04", label: "أبريل 2026", year: 2026 },
+        { value: "05", label: "مايو 2026", year: 2026 },
+        { value: "06", label: "يونيو 2026", year: 2026 },
+        { value: "07", label: "يوليو 2026", year: 2026 },
+        { value: "08", label: "أغسطس 2026", year: 2026 },
+        { value: "09", label: "سبتمبر 2026", year: 2026 }
+    ];
+
+    const yearlyServiced = {};
+
+    for (const m of months) {
+        // عدد الجمع في الشهر حسب سنة الشهر
+        const fridaysInThisMonth = countFridaysInMonth(m.value, m.year);
+
+        const response = await fetch(`${API_BASE}/admin/monthly-serviced/${m.value}/${familyId}`);
+        const data = await response.json();
+
+        if (data.success && Array.isArray(data.serviced)) {
+            console.log("MONTH", m.label, data.serviced);
+
+            data.serviced.forEach(s => {
+                const presentCount = s.sessions.filter(x => x.status === 'Present').length;
+
+                if (!yearlyServiced[s.servant_name]) yearlyServiced[s.servant_name] = [];
+
+                let existing = yearlyServiced[s.servant_name].find(x => x.serviced_name === s.serviced_name);
+                if (!existing) {
+                    existing = {
+                        serviced_name: s.serviced_name,
+                        monthly: {},
+                        totalPresent: 0
+                    };
+                    yearlyServiced[s.servant_name].push(existing);
+                }
+
+                existing.monthly[m.label] = {
+                    present: presentCount,
+                    fridays: fridaysInThisMonth,
+                    percentage: fridaysInThisMonth > 0 ? Math.round((presentCount / fridaysInThisMonth) * 100) : 0
+                };
+
+                existing.totalPresent += presentCount;
+            });
+        }
+    }
+
+    // إجمالي عدد الجمع لكل السنة
+    const totalFridaysYear = months.reduce((sum, m) => sum + countFridaysInMonth(m.value, m.year), 0);
+
+    const table = document.createElement('table');
+    table.className = 'table table-bordered';
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th>اسم الخادم</th>
+                <th>المخدوم</th>
+                ${months.map(m => `<th>${m.label}</th>`).join('')}
+                <th>النسبة السنوية</th>
+            </tr>
+        </thead>
+        <tbody>
+          ${Object.entries(yearlyServiced).map(([servantName, records]) => {
+    return records.map((s, index) => {
+        const yearlyPercentage = totalFridaysYear > 0
+            ? Math.round((s.totalPresent / totalFridaysYear) * 100)
+            : 0;
+
+        return `
+            <tr class="${index === 0 ? 'servant-separator' : ''}">
+                ${index === 0 ? `<td rowspan="${records.length}">${servantName}</td>` : ''}
+                <td>${s.serviced_name}</td>
+                ${months.map((m, i) => {
+                    const cell = s.monthly[m.label];
+                    return `<td class="month-col-${i}">${cell ? cell.percentage + '%' : '0%'}</td>`;
+                }).join('')}
+                <td>${yearlyPercentage}%</td>
+            </tr>
+        `;
+    }).join('');
+}).join('')}
+
+        </tbody>
+    `;
+    blocksDiv.appendChild(table);
+}
+
+
+
+    async function loadFamilies() {
+      const select = document.getElementById('familySelect');
+      select.innerHTML = '<option value="">-- جاري تحميل الأسر... --</option>';
+      select.disabled = true;
+
+      try {
+        const response = await fetch(`${API_BASE}/families`);
+        const data = await response.json();
+
+        select.innerHTML = '<option value="">-- اختر الأسرة --</option>';
+
+        if (data.success && data.families.length > 0) {
+          data.families.forEach(f => {
+            const option = new Option(f.family_name, f.family_id);
+            select.add(option);
+          });
+        } else {
+          const option = new Option('⚠️ لا توجد أسر مسجلة', '');
+          select.add(option);
+        }
+
+        select.disabled = false;
+      } catch (error) {
+        console.error('Error loading families:', error);
+        select.innerHTML = '<option value="">⚠️ فشل تحميل الأسر</option>';
+        select.disabled = false;
+      }
+    }
+
+       async function loadMonthlyReport() {
+      const month = document.getElementById('monthSelect').value;
+      const familyId = document.getElementById('familySelect').value;
+      const blocksDiv = document.getElementById('servantsBlocks');
+      const summaryBody = document.getElementById('familySummaryBody');
+      const summaryTable = document.querySelector('.summary-table');
+
+      if (!month || !familyId) {
+        alert('اختر الشهر والأسرة أولاً.');
+        return;
+      }
+      
+      const response = await fetch(`${API_BASE}/admin/monthly-serviced/${month}/${familyId}`);
+      const data = await response.json();
+      summaryTable.style.display = 'table';
+      document.getElementById('monthlySummaryTitle').style.display = 'block';
+
+      blocksDiv.innerHTML = '';
+      summaryBody.innerHTML = '';
+
+      if (data.success && Array.isArray(data.serviced) && data.serviced.length > 0) {
+        // استنتاج السنة من أول تاريخ موجود في البيانات
+        const firstDate = data.serviced.find(s => s.sessions.length > 0)?.sessions[0]?.date;
+        const year = firstDate ? parseInt(firstDate.slice(0,4),10) : new Date().getFullYear();
+
+        // عدد جمع الشهر من التقويم
+        const totalFridaysInMonth = countFridaysInMonth(month, year);
+
+        // كل تواريخ الجلسات في الجدول للعرض فقط
+        const allDates = [...new Set(
+          data.serviced.flatMap(s => Array.isArray(s.sessions) ? s.sessions.map(x => x.date) : [])
+        )].sort();
+
+        let totalSessions = 0, totalPresent = 0, totalServiced = 0;
+        const filteredServiced = data.serviced;
+
+        const groupedByServant = {};
+        filteredServiced.forEach(s => {
+          if (!groupedByServant[s.servant_name]) {
+            groupedByServant[s.servant_name] = [];
+          }
+          groupedByServant[s.servant_name].push(s);
+        });
+
+        const table = document.createElement('table');
+        table.className = 'table table-bordered';
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>اسم الخادم</th>
+              <th>المخدوم</th>
+              ${allDates.map(d => `<th>${d}</th>`).join('')}
+              <th>النسبة الشهرية</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${Object.entries(groupedByServant).map(([servantName, records]) => {
+              return records.map((s, index) => {
+                const presentCount = s.sessions.filter(x => x.status === 'Present').length;
+                const percentage = totalFridaysInMonth > 0 ? Math.round((presentCount / totalFridaysInMonth) * 100) : 0;
+
+                totalServiced++;
+                totalSessions += totalFridaysInMonth;
+                totalPresent += presentCount;
+
+                return `
+                  <tr>
+                    ${index === 0 ? `<td rowspan="${records.length}">${servantName}</td>` : ''}
+                    <td>${s.serviced_name}</td>
+                    ${allDates.map(d => {
+                      const session = s.sessions.find(x => x.date === d);
+                      return `<td>${session ? (session.status === 'Present' ? '1' : '0') : '-'}</td>`;
+                    }).join('')}
+                    <td>${percentage}%</td>
+                  </tr>
+                `;
+              }).join('');
+            }).join('')}
+          </tbody>
+        `;
+        blocksDiv.appendChild(table);
+
+        const familyPercentage = totalSessions > 0 ? Math.round((totalPresent / totalSessions) * 100) : 0;
+        summaryBody.innerHTML = `
+          <tr>
+            <td>${totalServiced}</td>
+            <td>${totalPresent}</td>
+            <td>${totalSessions}</td>
+            <td>${familyPercentage}%</td>
+          </tr>
+        `;
+      } else {
+        blocksDiv.innerHTML = '<p>⚠️ لا توجد بيانات لهذا الشهر.</p>';
+      }
+    }
+  </script>
+</body>
+</html>

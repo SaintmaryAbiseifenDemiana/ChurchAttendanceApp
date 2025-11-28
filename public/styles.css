@@ -1,0 +1,329 @@
+/* ====================================
+   1. التنسيق الأساسي وإعادة الضبط (Reset)
+   ==================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    direction: rtl;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ====================================
+   2. التنسيق للعناصر الرئيسية
+   ==================================== */
+
+h1 {
+    color: #4a69bd;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+h2 {
+    color: #555;
+    margin-top: 25px;
+}
+
+a {
+    color: #1abc9c;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #16a085;
+    text-decoration: underline;
+}
+
+button, .delete-btn {
+    background-color: #4a69bd;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #3850a5;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    margin-right: 10px;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+/* ====================================
+   3. نماذج الإدخال
+   ==================================== */
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* صفحة تسجيل الدخول */
+.login-container {
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ====================================
+   4. الجداول
+   ==================================== */
+
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background-color: #fff;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: right;
+}
+
+th {
+    background-color: #4a69bd;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* ====================================
+   5. رسائل النظام
+   ==================================== */
+
+.message, .success, .error, .info {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.info {
+    background-color: #e2e3e5;
+    color: #383d41;
+    border: 1px solid #d6d8db;
+}
+
+/* ====================================
+   6. لوحة المشرف والأمين
+   ==================================== */
+
+.dashboard-list {
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard-list li {
+    margin-bottom: 10px;
+}
+
+.dashboard-list a {
+    display: block;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+}
+
+.dashboard-list a:hover {
+    background-color: #eef;
+    text-decoration: none;
+}
+
+/* ====================================
+   7. تسجيل الحضور
+   ==================================== */
+
+.report-controls, .attendance-form .form-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.report-controls label, .attendance-form label {
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+.report-controls input, .report-controls select {
+    flex-grow: 1;
+    max-width: 250px;
+}
+
+/* سجل الحضور الفردي */
+.servant-item {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.servant-header {
+    font-weight: bold;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.attendance-status input[type="radio"] {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.reason-input {
+    width: 100%;
+    padding: 5px;
+}
+
+/* ====================================
+   8. تقرير الحضور
+   ==================================== */
+
+.present { background-color: #e6ffed; color: green; font-weight: bold; }
+.absent { background-color: #ffe6e6; color: red; }
+.apologized { background-color: #fffacd; }
+.no-data { background-color: #f7f7f7; color: #888; }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: right;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 10;
+    top: 120%;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.9em;
+    direction: rtl;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ====================================
+   9. تجاوب مع الموبايل
+   ==================================== */
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .login-container {
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .report-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    table {
+        min-width: unset;
+        font-size: 0.9em;
+    }
+
+    .servant-item {
+        grid-template-columns: 1fr;
+    }
+}

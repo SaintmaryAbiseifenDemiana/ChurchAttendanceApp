@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="back.jpg"> 
+</head>
+<body>
+    <div class="container">
+        <h1>لوحة تحكم سكرتارية مارمينا وابي سيفين(Admin)</h1>
+        <p>مرحباً بك يا مشرف النظام. يمكنك من هنا إدارة البيانات الرئيسية للنظام.</p>
+        
+        <h2>الميزات الرئيسية:</h2>
+        <ul>
+            <li><a href="/manage-families.html" id="manage-families">إدارة الأسر (إضافة/تعديل/حذف)</a></li>
+            <li><a href="/manage-users.html" id="manage-servants">إدارة الخدام والأمناء</a></li>
+            <li><a href="/view-reports.html" id="view-reports">عرض تقارير الحضور والغياب(اسبوعيا)</a></li>
+            <li><a href="/monthly-reports.html">النسبة الشهرية للخدام</a></li>
+            <li><a href="/monthly-serviced.html">النسبة الشهرية للمخدومين</a></li>
+
+        </ul>
+        
+        <ul class="dashboard-list">
+            <li>
+               <a href="import-servants.html">📥 استيراد بيانات الخدام دفعة واحدة</a>
+            </li>
+            <li>
+               <a href="admin-import.html">📥 استيراد بيانات المخدومين والفصول </a>
+            </li>
+        </ul>
+        <button id="logout-btn">تسجيل الخروج</button>
+    </div>
+    <script src="admin-dashboard.js"></script>
+
+</body>
+</html>

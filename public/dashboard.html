@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>لوحة التحكم للخادم</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { font-family: Tahoma, sans-serif; padding-top: 20px; }
+    .container { max-width: 900px; }
+    .table-container { max-height: 500px; overflow-y: auto; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="text-center mb-4">تسجيل حضور المخدومين</h2>
+
+    <!-- التحكم -->
+    <div id="controls" class="p-3 mb-4 border rounded">
+      <div class="row">
+        <div class="col-md-12 form-group">
+          <label><strong>أسرة الخادم:</strong></label>
+          <div id="userFamilyName" class="alert alert-secondary p-2 mb-3">جارٍ التحميل...</div>
+        </div>
+
+        <div class="col-md-4 form-group">
+          <label for="classSelect">الفصل الدراسي</label>
+          <select id="classSelect" class="form-control" required disabled>
+            <option value="">اختر الفصل...</option>
+          </select>
+        </div>
+
+        <div class="col-md-4 form-group">
+          <label for="monthSelect">الشهر</label>
+          <select id="monthSelect" class="form-control" required disabled>
+            <option value="">اختر الشهر...</option>
+            <option value="10">أكتوبر</option>
+            <option value="11">نوفمبر</option>
+            <option value="12">ديسمبر</option>
+            <option value="01">يناير</option>
+            <option value="02">فبراير</option>
+            <option value="03">مارس</option>
+            <option value="04">أبريل</option>
+            <option value="05">مايو</option>
+            <option value="06">يونيو</option>
+            <option value="07">يوليو</option>
+            <option value="08">أغسطس</option>
+            <option value="09">سبتمبر</option>
+          </select>
+        </div>
+
+        <div class="col-md-4 form-group">
+          <label for="fridaySelect">الجمعة</label>
+          <select id="fridaySelect" class="form-control" required disabled>
+            <option value="">اختر الجمعة...</option>
+          </select>
+        </div>
+      </div>
+      <button id="loadServicedBtn" class="btn btn-info btn-block mt-3" disabled>
+        جلب قائمة المخدومين
+      </button>
+    </div>
+
+    <!-- جدول المخدومين -->
+    <div id="servicedListCard" class="card mt-4" style="display: none;">
+      <div class="card-header bg-primary text-white">
+        قائمة المخدومين: <span id="selectedClassDisplay"></span>
+      </div>
+      <div class="card-body table-container">
+        <table class="table table-sm table-striped">
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th class="text-center">حالة الحضور</th>
+            </tr>
+          </thead>
+          <tbody id="servicedTableBody"></tbody>
+        </table>
+      </div>
+      <div class="card-footer text-center">
+        <button id="submitAttendanceBtn" class="btn btn-success" type="button" disabled>
+          حفظ سجل الحضور
+        </button>
+        <div id="message" class="mt-2"></div>
+      </div>
+      
+    </div>
+    <button id="logoutBtn" class="btn btn-danger">تسجيل الخروج</button>
+  </div>
+  
+
+  <!-- مكتبات -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- ملف الجافاسكربت -->
+  <script src="serviced-attendance-form.js"></script>
+ 
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الأسر</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <style>
+        /* إضافة ستايلات بسيطة للجدول */
+        .family-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .family-table th, .family-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: right;
+        }
+        .family-table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>إدارة الأسر</h1>
+        <a href="/admin-dashboard.html">العودة للوحة الإدارة</a>
+        <hr>
+
+        <h3>إضافة أسرة جديدة</h3>
+        <form id="addFamilyForm">
+            <div class="form-group">
+                <label for="new_family_name">اسم الأسرة:</label>
+                <input type="text" id="new_family_name" required>
+            </div>
+            <button type="submit">إضافة</button>
+            <p id="addMessage"></p>
+        </form>
+
+        <hr>
+
+        <h3>قائمة الأسر المسجلة</h3>
+        <table class="family-table">
+            <thead>
+                <tr>
+                    <th>م</th>
+                    <th>اسم الأسرة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="familiesTableBody">
+                </tbody>
+        </table>
+    </div>
+
+    <script src="manage-families.js"></script>
+    <script src="navigation-control.js"></script>
+
+</body>
+</html>

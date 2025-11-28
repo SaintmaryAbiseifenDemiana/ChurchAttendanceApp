@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استيراد بيانات الخدام</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📥 استيراد بيانات الخدام دفعة واحدة</h1>
+        <a href="/admin-dashboard.html">العودة للوحة الإدارة</a>
+        <hr>
+
+        <h2>تعليمات تجهيز الملف</h2>
+        <p>يجب أن يكون الملف بصيغة **CSV** أو **Excel**. ويجب أن يحتوي على الأعمدة التالية بالترتيب الدقيق في الصف الأول:</p>
+        
+        <pre>username, password, role_group, family_name</pre>
+        
+        <p style="color:red; font-weight: bold;">ملاحظة: سيتم تجاهل الخدام الذين لديهم نفس اسم المستخدم (`username`) الموجودين مسبقاً.</p>
+
+        <form id="importForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="servantFile">اختر ملف CSV/Excel (مثل Book1.csv):</label>
+                <input type="file" id="servantFile" name="servantFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+            </div>
+            <button type="submit" id="importButton">بدء الاستيراد</button>
+        </form>
+        
+        <p id="importStatus" style="margin-top: 20px; font-weight: bold;"></p>
+    </div>
+
+    <script src="imports-servants.js"></script>
+    <script src="navigation-control.js"></script>
+
+</body>
+</html>

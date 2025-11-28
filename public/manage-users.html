@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الخدام والأمناء</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <style>
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .users-table th, .users-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: right;
+        }
+        .users-table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>إدارة الخدام والأمناء</h1>
+        <a href="/admin-dashboard.html">العودة للوحة الإدارة</a>
+        <hr>
+
+        <h3>إضافة مستخدم جديد</h3>
+        <form id="addUserForm">
+            <div class="form-group">
+                <label for="new_username">اسم المستخدم:</label>
+                <input type="text" id="new_username" required>
+            </div>
+            <div class="form-group">
+                <label for="new_password">كلمة المرور:</label>
+                <input type="password" id="new_password" required>
+            </div>
+            <div class="form-group">
+                <label for="role_group">الصلاحية:</label>
+                <select id="role_group" required>
+                    <option value="Khadem">خادم/خادمة (تسجيل حضور وغياب)</option>
+                    <option value="AmeenSekra">أمين خدمة/سكرتارية</option>
+                    <option value="Admin">مشرف نظام</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="family_id">الأسرة المسؤولة عنها (اختياري/للخدام):</label>
+                <select id="family_id">
+                    <option value="">لا يوجد/مشرف</option>
+                    </select>
+            </div>
+            <button type="submit">إضافة مستخدم</button>
+            <p id="userAddMessage"></p>
+        </form>
+
+        <hr>
+
+        <h3>قائمة المستخدمين الحاليين</h3>
+        <table class="users-table">
+         <thead>
+          <tr>
+            <th><input type="checkbox" id="selectAll"></th> <!-- ✅ زر تحديد الكل -->
+            <th>م</th>
+            <th>اسم المستخدم</th>
+            <th>الصلاحية</th>
+            <th>الأسرة المسؤولة</th>
+            <th>الإجراء</th>
+          </tr>
+         </thead>
+         <tbody id="usersTableBody"></tbody>
+</table>
+
+<button id="deleteSelectedBtn">مسح المحددين</button>
+
+    </div>
+
+    <script src="manage-users.js"></script>
+    <script src="navigation-control.js"></script>
+
+</body>
+</html>
